@@ -6,7 +6,8 @@
   "mixins": [
   ],
   "client": [
-    "ExampleMixin"
+    "ExampleMixin",
+    "WindowInitializationMixin"
   ],
   "injectors": {
     "defaultRequire": 1

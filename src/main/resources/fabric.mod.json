@@ -21,6 +21,7 @@
     "main": [
       "net.fabricmc.example.ExampleMod"
     ]
+
   },
   "mixins": [
     "modid.mixins.json"
