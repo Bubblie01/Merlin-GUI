@@ -17,5 +17,6 @@ public class ExampleMod implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		Registry.register(Registry.ITEM, new Identifier("modid", "test_item"),TEST_ITEM);
+		MerlinScreen.onClientCreation();
 	}
 }

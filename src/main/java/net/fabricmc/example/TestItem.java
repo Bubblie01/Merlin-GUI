@@ -19,7 +19,7 @@ public class TestItem extends Item
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-
+        if(world.isClient)
         MinecraftClient.getInstance().setScreen(new MerlinScreen(Text.of("Balls")));
         return super.use(world, user, hand);
     }

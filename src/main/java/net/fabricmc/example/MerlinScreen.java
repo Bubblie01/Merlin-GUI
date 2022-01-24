@@ -1,8 +1,12 @@
 package net.fabricmc.example;
 
 import net.fabricmc.example.MerlinWindow;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
+import net.minecraft.util.ActionResult;
 
 public class MerlinScreen extends Screen
 {
@@ -12,14 +16,29 @@ public class MerlinScreen extends Screen
         super(text);
     }
 
+
     @Override
-    public void init()
-    {
-        //merlinWindow.windowInit();
+    protected void init() {
+    }
+
+    @Override
+    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        merlinWindow.windowRender();
+        super.render(matrices, mouseX, mouseY, delta);
     }
 
     public static MerlinWindow getWindow()
     {
     return merlinWindow;
     }
+
+    public static void onClientCreation()
+    {
+        ClientLifecycleEvents.CLIENT_STARTED.register((listener) -> {
+            //merlinWindow.windowInit();
+        });
+    }
+
+
+
 }

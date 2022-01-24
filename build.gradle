@@ -3,6 +3,8 @@ plugins {
 	id 'maven-publish'
 	id 'io.github.juuxel.loom-quiltflower-mini' version '1.2.1'
 	id "org.quiltmc.quilt-mappings-on-loom" version "3.1.1"
+	id 'java'
+
 }
 
 sourceCompatibility = JavaVersion.VERSION_17
@@ -18,6 +20,9 @@ repositories {
 	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
+	mavenCentral()
+	maven { url = "https://raw.githubusercontent.com/SpinyOwl/repo/releases" }
+
 }
 
 dependencies {
@@ -35,6 +40,19 @@ dependencies {
 
 	implementation group: 'com.spinyowl', name: 'legui', version: '4.0.0';
 	implementation group: 'org.liquidengine', name: 'cbchain', version: '1.0.0';
+
+	configurations.all {
+		resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+			if(details.requested.group == 'org.lwjgl')
+			{
+				details.useVersion('3.2.2')
+				details.because 'compatability'
+			}
+
+		}
+	}
+
+
 }
 
 processResources {
