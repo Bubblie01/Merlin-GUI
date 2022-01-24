@@ -20,7 +20,7 @@
   "entrypoints": {
     "main": [
       "net.fabricmc.example.ExampleMod"
-    ],
+    ]
 
 
   },
