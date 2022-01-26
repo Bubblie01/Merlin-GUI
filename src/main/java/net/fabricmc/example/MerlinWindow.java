@@ -37,22 +37,19 @@ public class MerlinWindow
     private NvgRenderer renderer;
     private Context context;
     private Framebuffer framebuffer;
+    private int renderBufferID;
     private MinecraftClient client;
+    private int fboWidth, fboHeight;
+    long minecraftContext;
 
-
-    public MerlinWindow()
-    {
-        this.width = 1;
-        this.height = 1;
-        this.name = "balls";
-    }
 
     public void windowInit(MinecraftClient client)
     {
         this.client = client;
         this.width = client.getWindow().getWidth();
         this.height = client.getWindow().getHeight();
-        glfwWindow = glfwCreateWindow(width, height, name, NULL, NULL);
+        //glfwWindow = glfwCreateWindow(width, height, name, NULL, NULL);
+        //minecraftContext = glfwGetCurrentContext();
 
         GL.createCapabilities();
         glfwSwapInterval(0);
@@ -63,21 +60,27 @@ public class MerlinWindow
         glBindFramebuffer(GL_FRAMEBUFFER, frameBufferID);
 
         textureID = framebuffer.getColorAttachment();
-
         glBindTexture(GL_TEXTURE_2D, textureID);
 
-        context = new Context(glfwWindow);
+        if(framebuffer.useDepthAttachment) {
+            renderBufferID = framebuffer.getDepthAttachment();
+            glBindRenderbuffer(GL_RENDERBUFFER, renderBufferID);
+            glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
+            glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, renderBufferID);
+        }
+
+        context = new Context(glfwGetCurrentContext());
 
         renderer = new NvgRenderer();
         renderer.initialize();
 
         frame = new Frame(width,width);
 
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+        //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
 
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
         glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, textureID, 0);
 
@@ -86,6 +89,7 @@ public class MerlinWindow
         //glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         //glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
@@ -104,14 +108,14 @@ public class MerlinWindow
         frame.getContainer().add(button);
 
 
+
     }
 
     public void windowRender()
     {
-        if(!glfwWindowShouldClose(glfwWindow)) {
             glBindFramebuffer(GL_FRAMEBUFFER, frameBufferID);
             context.updateGlfwWindow();
-            Vector2i windowSize = context.getFramebufferSize();
+            //Vector2i windowSize = context.getFramebufferSize();
             //glClearColor(0, 0, windowSize.x , windowSize.y);
             glViewport(0,0, width,height);
             //glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
@@ -121,8 +125,7 @@ public class MerlinWindow
             LayoutManager.getInstance().layout(frame);
             AnimatorProvider.getAnimator().runAnimations();
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        }
-    }
 
+    }
 
 }

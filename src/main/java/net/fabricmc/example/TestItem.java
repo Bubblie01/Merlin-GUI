@@ -9,6 +9,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
+
 public class TestItem extends Item
 {
 
@@ -19,8 +20,9 @@ public class TestItem extends Item
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        if(world.isClient)
-        MinecraftClient.getInstance().setScreen(new MerlinScreen(Text.of("Balls")));
+        if (world.isClient) {
+            MinecraftClient.getInstance().setScreen(new MerlinScreen(Text.of("Balls")));
+        }
         return super.use(world, user, hand);
     }
 }

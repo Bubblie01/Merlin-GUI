@@ -7,18 +7,20 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
+import org.lwjgl.glfw.GLFW;
 
 public class MerlinScreen extends Screen
 {
     static MerlinWindow merlinWindow = new MerlinWindow();
-
+    public static boolean hasEnded;
     public MerlinScreen(Text text) {
         super(text);
     }
 
 
     @Override
-    protected void init() {
+    protected void init()
+    {
     }
 
     @Override
@@ -38,7 +40,4 @@ public class MerlinScreen extends Screen
             //merlinWindow.windowInit();
         });
     }
-
-
-
 }
