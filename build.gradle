@@ -79,6 +79,9 @@ jar {
 	from("LICENSE") {
 		rename { "${it}_${project.archivesBaseName}"}
 	}
+
+	manifest.attributes["Main-Class"] = "net.fabricmc.devlaunchinjector.Main"
+
 }
 
 // configure the maven publication

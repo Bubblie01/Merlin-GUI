@@ -11,8 +11,6 @@ import org.lwjgl.glfw.GLFW;
 
 public class MerlinScreen extends Screen
 {
-    static MerlinWindow merlinWindow = new MerlinWindow();
-    public static boolean hasEnded;
     public MerlinScreen(Text text) {
         super(text);
     }
@@ -21,23 +19,13 @@ public class MerlinScreen extends Screen
     @Override
     protected void init()
     {
+        super.init();
+        MerlinWindow.windowResize();
     }
 
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        merlinWindow.windowRender();
+        MerlinWindow.windowRender();
         super.render(matrices, mouseX, mouseY, delta);
-    }
-
-    public static MerlinWindow getWindow()
-    {
-    return merlinWindow;
-    }
-
-    public static void onClientCreation()
-    {
-        ClientLifecycleEvents.CLIENT_STARTED.register((listener) -> {
-            //merlinWindow.windowInit();
-        });
     }
 }

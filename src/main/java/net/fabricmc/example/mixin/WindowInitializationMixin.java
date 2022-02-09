@@ -2,6 +2,7 @@ package net.fabricmc.example.mixin;
 
 
 import net.fabricmc.example.MerlinScreen;
+import net.fabricmc.example.MerlinWindow;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.WindowFramebuffer;
 import net.minecraft.client.gui.screen.Screen;
@@ -18,25 +19,18 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(MinecraftClient.class)
+@Mixin(Window.class)
 public class WindowInitializationMixin
 {
 
 
-    @Shadow private static MinecraftClient instance;
 
-    @Shadow @Nullable public Screen currentScreen;
 
-    @Inject(at = @At("TAIL"), method = "<init>")
+
+    @Inject(at = @At(value = "TAIL"), method = "<init>")
     private void initializeMerlinWindow(CallbackInfo ci)
     {
-        MerlinScreen.getWindow().windowInit(instance);
+        MerlinWindow.windowInit(((Window)(Object)this));
     }
 
-    @Inject(method = "Lnet/minecraft/client/MinecraftClient;render(Z)V", at = @At(value = "FIELD", target = "Lnet/minecraft/client/MinecraftClient;paused:Z", ordinal = 2))
-    private void renderEndFrame(CallbackInfo ci)
-    {
-        //if(currentScreen == null && currentScreen instanceof MerlinScreen)
-        //MerlinScreen.hasEnded = true;
-    }
 }
