@@ -1,13 +1,8 @@
 package net.fabricmc.example;
 
-import net.fabricmc.example.MerlinWindow;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import org.lwjgl.glfw.GLFW;
 
 public class MerlinScreen extends Screen
 {

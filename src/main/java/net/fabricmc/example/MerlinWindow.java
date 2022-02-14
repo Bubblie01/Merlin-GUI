@@ -1,44 +1,27 @@
 package net.fabricmc.example;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-
-
 import com.spinyowl.legui.DefaultInitializer;
 import com.spinyowl.legui.animation.AnimatorProvider;
 import com.spinyowl.legui.component.Button;
 import com.spinyowl.legui.component.Frame;
 import com.spinyowl.legui.component.Label;
 import com.spinyowl.legui.component.Widget;
-import com.spinyowl.legui.icon.CharIcon;
-import com.spinyowl.legui.icon.Icon;
-import com.spinyowl.legui.style.Background;
-import com.spinyowl.legui.style.Border;
 import com.spinyowl.legui.style.Style;
 import com.spinyowl.legui.style.color.ColorConstants;
 import com.spinyowl.legui.style.font.TextDirection;
 import com.spinyowl.legui.system.context.Context;
 import com.spinyowl.legui.system.layout.LayoutManager;
 import com.spinyowl.legui.system.renderer.nvg.NvgRenderer;
-import com.spinyowl.legui.theme.Themes;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.util.Window;
 import org.joml.Vector2f;
-import org.joml.Vector2i;
-import org.lwjgl.opengl.GL;
-import org.lwjgl.opengl.GL32C;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
 
-import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL11C.*;
-import static org.lwjgl.opengl.GL30C.GL_COLOR_ATTACHMENT0;
+import static org.lwjgl.glfw.GLFW.glfwGetCurrentContext;
 import static org.lwjgl.opengl.GL32C.*;
-import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class MerlinWindow
 {
@@ -169,7 +152,7 @@ public class MerlinWindow
             this.uniformBuffer = glGetInteger(GL_UNIFORM_BUFFER_BINDING);
             this.vertexArray = glGetInteger(GL_VERTEX_ARRAY_BINDING);
             this.arrayBuffer = glGetInteger(GL_ARRAY_BUFFER_BINDING);
-            this.texture2D = glGetInteger(GL_TEXTURE_2D);
+            this.texture2D = glGetInteger(GL_TEXTURE_BINDING_2D);
         }
 
         @Override
