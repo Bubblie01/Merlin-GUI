@@ -1,44 +1,27 @@
 package net.fabricmc.example;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-
-
 import com.spinyowl.legui.DefaultInitializer;
 import com.spinyowl.legui.animation.AnimatorProvider;
-import com.spinyowl.legui.component.Button;
 import com.spinyowl.legui.component.Frame;
-import com.spinyowl.legui.component.Label;
 import com.spinyowl.legui.component.Widget;
-import com.spinyowl.legui.icon.CharIcon;
-import com.spinyowl.legui.icon.Icon;
-import com.spinyowl.legui.style.Background;
-import com.spinyowl.legui.style.Border;
-import com.spinyowl.legui.style.Style;
-import com.spinyowl.legui.style.color.ColorConstants;
-import com.spinyowl.legui.style.font.TextDirection;
+import com.spinyowl.legui.listener.processor.EventProcessorProvider;
+import com.spinyowl.legui.system.context.CallbackKeeper;
 import com.spinyowl.legui.system.context.Context;
+import com.spinyowl.legui.system.context.DefaultCallbackKeeper;
+import com.spinyowl.legui.system.handler.processor.SystemEventProcessor;
+import com.spinyowl.legui.system.handler.processor.SystemEventProcessorImpl;
 import com.spinyowl.legui.system.layout.LayoutManager;
 import com.spinyowl.legui.system.renderer.nvg.NvgRenderer;
-import com.spinyowl.legui.theme.Themes;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.util.Window;
 import org.joml.Vector2f;
-import org.joml.Vector2i;
-import org.lwjgl.opengl.GL;
-import org.lwjgl.opengl.GL32C;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
 
-import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11C.*;
-import static org.lwjgl.opengl.GL30C.GL_COLOR_ATTACHMENT0;
 import static org.lwjgl.opengl.GL32C.*;
-import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class MerlinWindow
 {
@@ -54,39 +37,34 @@ public class MerlinWindow
     private int renderBufferID;
     private int fboWidth, fboHeight;
     static long minecraftContext;
+    static long nvgContext;
+    private static Window mcWindow;
+    private static CallbackKeeper callbackKeeper;
+    private static SystemEventProcessor systemEventProcessor;
 
 
     public static void windowInit(Window window)
     {
         int width = window.getWidth();
         int height = window.getHeight();
-        minecraftContext = glfwGetCurrentContext();
+
+        mcWindow = window;
+
+        minecraftContext = window.getHandle();
 
         renderer = new NvgRenderer();
         renderer.initialize();
         frame = new Frame(width,height);
+        callbackKeeper = new DefaultCallbackKeeper();
+        systemEventProcessor = new SystemEventProcessorImpl();
+
+        CallbackKeeper.registerCallbacks(minecraftContext,callbackKeeper);
 
 
-        MinecraftWidget widget = new MinecraftWidget("Shit",200,50,200,200);
 
-        //widget.add(widget2);
+        Widget widget = new Widget("Regular Window",200,50,200,200);
 
-
-        //widget.getTitle().getStyle().getBackground().setColor(ColorConstants.green());
-        //widget.getMaximizeIcon().setSize(new Vector2f(20f, 20f));
-        //widget.getTitleContainer().getFocusedStyle().getBackground().setColor(ColorConstants.green());
-        //widget.getContainer().getStyle().setDisplay(Style.DisplayType.FLEX);
-        //widget.getTitleContainer().getStyle().getBackground().setColor(ColorConstants.lightGreen());
-
-        Label label = new Label("balls", 20f, 20f, 150f,20f);
-        label.setTextDirection(TextDirection.HORIZONTAL);
-        label.getStyle().getBackground().setColor(ColorConstants.green());
-
-        Button button = new Button("Hello Button", 20, 20, 160, 30);
-        button.getStyle().setPosition(Style.PositionType.RELATIVE);
         frame.getContainer().add(widget);
-        frame.getContainer().add(button);
-        //frame.getContainer().add(label);
 
         context = new Context(minecraftContext);
 
@@ -96,15 +74,16 @@ public class MerlinWindow
     {
         try (final StateRestore ignored = new StateRestore()) {
             context.updateGlfwWindow();
-            LayoutManager.getInstance().layout(frame);
             renderer.render(frame, context);
+            LayoutManager.getInstance().layout(frame, context);
             AnimatorProvider.getAnimator().runAnimations();
 
         }
 
     }
 
-    public static void windowResize() {
+    public static void windowResize()
+    {
         context.updateGlfwWindow();
         frame.setSize(new Vector2f(context.getWindowSize()));
     }
@@ -169,7 +148,7 @@ public class MerlinWindow
             this.uniformBuffer = glGetInteger(GL_UNIFORM_BUFFER_BINDING);
             this.vertexArray = glGetInteger(GL_VERTEX_ARRAY_BINDING);
             this.arrayBuffer = glGetInteger(GL_ARRAY_BUFFER_BINDING);
-            this.texture2D = glGetInteger(GL_TEXTURE_2D);
+            this.texture2D = glGetInteger(GL_TEXTURE_BINDING_2D);
         }
 
         @Override
@@ -191,7 +170,7 @@ public class MerlinWindow
             glBindBuffer(GL_UNIFORM_BUFFER, uniformBuffer);
             glBindVertexArray(vertexArray);
             glBindBuffer(GL_ARRAY_BUFFER, arrayBuffer);
-            glBindTexture(GL_TEXTURE_2D, texture2D);
+            glBindTexture(GL_TEXTURE_BINDING_2D, texture2D);
             //glUniformBlockBinding(... , GLNVG_FRAG_BINDING); TODO: not used in vanilla, but might be elsewhere
         }
     }

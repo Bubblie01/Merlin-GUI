@@ -364,11 +364,11 @@ public class MinecraftWidget extends Component {
 
 
 
-        //this.add(resizeButton);
-        //this.add(titleContainer);
-        //this.add(container);
+        this.add(resizeButton);
+        this.add(titleContainer);
+        this.add(container);
 
-        //Themes.getDefaultTheme().getThemeManager().getComponentTheme(MinecraftWidget.class).applyAll(this);
+        Themes.getDefaultTheme().getThemeManager().getComponentTheme(MinecraftWidget.class).applyAll(this);
     }
 
     private void applyStylesToContainer(Component container) {
