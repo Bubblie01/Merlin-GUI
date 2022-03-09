@@ -1,6 +1,6 @@
-package net.fabricmc.example.mixin;
+package io.github.bubblie01.merlingui.mixin;
 
-import net.fabricmc.example.MerlinWindow;
+import io.github.bubblie01.merlingui.MerlinWindow;
 import net.minecraft.client.util.Window;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -10,7 +10,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL32C.*;
 import static org.lwjgl.opengl.GL43C.*;
-import static org.lwjgl.system.MemoryUtil.NULL;
 
 @Mixin(Window.class)
 public class WindowInitializationMixin

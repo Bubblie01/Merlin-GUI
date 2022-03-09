@@ -1,21 +1,34 @@
-package net.fabricmc.example;
+package io.github.bubblie01.merlingui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.spinyowl.legui.DefaultInitializer;
 import com.spinyowl.legui.animation.AnimatorProvider;
 import com.spinyowl.legui.component.Frame;
 import com.spinyowl.legui.component.Widget;
+import com.spinyowl.legui.component.misc.listener.widget.WidgetDragListener;
+import com.spinyowl.legui.event.MouseDragEvent;
+import com.spinyowl.legui.listener.MouseDragEventListener;
 import com.spinyowl.legui.listener.processor.EventProcessorProvider;
 import com.spinyowl.legui.system.context.CallbackKeeper;
 import com.spinyowl.legui.system.context.Context;
 import com.spinyowl.legui.system.context.DefaultCallbackKeeper;
+import com.spinyowl.legui.system.event.SystemCursorPosEvent;
+import com.spinyowl.legui.system.event.SystemDropEvent;
+import com.spinyowl.legui.system.event.SystemMouseClickEvent;
+import com.spinyowl.legui.system.event.SystemScrollEvent;
+import com.spinyowl.legui.system.handler.CursorPosEventHandler;
 import com.spinyowl.legui.system.handler.processor.SystemEventProcessor;
 import com.spinyowl.legui.system.handler.processor.SystemEventProcessorImpl;
 import com.spinyowl.legui.system.layout.LayoutManager;
 import com.spinyowl.legui.system.renderer.nvg.NvgRenderer;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.util.Window;
+import org.apache.commons.compress.harmony.pack200.NewAttributeBands;
 import org.joml.Vector2f;
+import org.joml.Vector2i;
+import org.lwjgl.glfw.GLFWCursorPosCallbackI;
+import org.lwjgl.system.Callback;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.ByteBuffer;
@@ -23,58 +36,57 @@ import java.nio.ByteBuffer;
 import static org.lwjgl.opengl.GL11C.*;
 import static org.lwjgl.opengl.GL32C.*;
 
-public class MerlinWindow
-{
+public class MerlinWindow {
 
     String name;
     private int frameBufferID;
     private int textureID;
     private static Frame frame;
     private static NvgRenderer renderer;
-    private DefaultInitializer initializer;
     private static Context context;
     private static Framebuffer framebuffer;
     private int renderBufferID;
     private int fboWidth, fboHeight;
     static long minecraftContext;
     static long nvgContext;
-    private static Window mcWindow;
-    private static CallbackKeeper callbackKeeper;
-    private static SystemEventProcessor systemEventProcessor;
+    private static double x;
+    private static double y;
+    public static CallbackKeeper callbackKeeper;
+    public static SystemEventProcessor systemEventProcessor;
 
+    public static void windowInit(Window window) {
+        MinecraftClient client = MinecraftClient.getInstance();
 
-    public static void windowInit(Window window)
-    {
         int width = window.getWidth();
         int height = window.getHeight();
 
-        mcWindow = window;
 
         minecraftContext = window.getHandle();
 
         renderer = new NvgRenderer();
         renderer.initialize();
-        frame = new Frame(width,height);
+        frame = new Frame(width, height);
+
+
         callbackKeeper = new DefaultCallbackKeeper();
-        systemEventProcessor = new SystemEventProcessorImpl();
 
-        CallbackKeeper.registerCallbacks(minecraftContext,callbackKeeper);
-
-
-
-        Widget widget = new Widget("Regular Window",200,50,200,200);
+        Widget widget = new Widget("Regular Window", 200, 50, 200, 200);
 
         frame.getContainer().add(widget);
 
         context = new Context(minecraftContext);
 
+        systemEventProcessor = new SystemEventProcessorImpl();
     }
 
-    public static void windowRender()
-    {
+    public static void windowRender() {
         try (final StateRestore ignored = new StateRestore()) {
             context.updateGlfwWindow();
+            Vector2i windowSize = context.getFramebufferSize();
+            glViewport(0, 0, windowSize.x, windowSize.y);
             renderer.render(frame, context);
+            systemEventProcessor.processEvents(frame, context);
+            EventProcessorProvider.getInstance().processEvents();
             LayoutManager.getInstance().layout(frame, context);
             AnimatorProvider.getAnimator().runAnimations();
 
@@ -82,11 +94,32 @@ public class MerlinWindow
 
     }
 
+    public static void onCursorPos(long handle, double cursorX, double cursorY)
+    {
+        systemEventProcessor.pushEvent(new SystemCursorPosEvent(handle, cursorX, cursorY));
+    }
+
+    public static void onMouseScroll(long handle, double xOffset, double yOffset)
+    {
+        systemEventProcessor.pushEvent(new SystemScrollEvent(handle, xOffset, yOffset));
+    }
+
+    public static void onMouseButton(long handle, int button, int action, int mods)
+    {
+        systemEventProcessor.pushEvent(new SystemMouseClickEvent(handle, button, action, mods));
+    }
+
+    public static void onFileDrop(long handle, int window, long names)
+    {
+        systemEventProcessor.pushEvent(new SystemDropEvent(handle, window, names));
+    }
+
     public static void windowResize()
     {
         context.updateGlfwWindow();
         frame.setSize(new Vector2f(context.getWindowSize()));
     }
+
 
     private static final class StateRestore implements AutoCloseable {
         private final int program;

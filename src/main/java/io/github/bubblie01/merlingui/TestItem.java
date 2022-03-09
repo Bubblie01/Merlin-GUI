@@ -1,4 +1,4 @@
-package net.fabricmc.example;
+package io.github.bubblie01.merlingui;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
