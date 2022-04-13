@@ -17,18 +17,14 @@ public class WindowInitializationMixin
     @Inject(at = @At(value = "TAIL"), method = "<init>")
     private void initializeMerlinWindow(CallbackInfo ci)
     {
-
         MerlinWindow.windowInit(((Window)(Object)this));
         glEnable(GL_DEBUG_OUTPUT);
         glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-
     }
 
-    @Inject(at = @At(value = "INVOKE", target = "Lorg/lwjgl/glfw/GLFW;glfwWindowHint(II)V"), method = "<init>")
+    @Inject(at = @At(value = "INVOKE", target = "Lorg/lwjgl/glfw/GLFW;glfwWindowHint(II)V", remap = false), method = "<init>")
     private void debugWindow(CallbackInfo ci)
     {
         glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
-
     }
-
 }
