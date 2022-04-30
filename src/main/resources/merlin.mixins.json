@@ -7,7 +7,6 @@
   ],
   "client": [
     "WindowInitializationMixin",
-    "MouseCursorEventMixin"
   ],
   "injectors": {
     "defaultRequire": 1

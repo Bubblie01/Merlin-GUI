@@ -39,7 +39,7 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	implementation group: 'io.github.bubblie', name: 'legui', version: '4.0.0';
+	implementation group: 'io.github.bubblie', name: 'legui', version: '4.0.1';
 	implementation group: 'org.liquidengine', name: 'cbchain', version: '1.0.0';
 
 	configurations.all {

@@ -1,80 +1,149 @@
 package io.github.bubblie01.merlingui;
 
+import com.spinyowl.legui.component.*;
+import com.spinyowl.legui.component.optional.TextState;
+import com.spinyowl.legui.image.loader.ImageLoader;
+import com.spinyowl.legui.style.Style;
+import com.spinyowl.legui.style.color.ColorConstants;
+import com.spinyowl.legui.style.font.FontRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
+import org.joml.Vector4f;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.lwjgl.glfw.GLFW.*;
 
 public class MerlinScreen extends Screen
 {
-    private double x;
-    private double y;
     private int controlLeftTicks;
     private double glfwTime;
     private double eventDeltaWheel;
     private int counter;
-
-    public MerlinScreen(Text text) {
+    private int mods;
+    private int action;
+    public float width;
+    public float height;
+    public double scaledFactor;
+    private final Frame frame = new Frame();
+    long handle;
+    boolean isInit;
+    //public List<Component> componentList = new ArrayList<Component>();
+    public MerlinScreen(Text text)
+    {
         super(text);
     }
 
 
 
     @Override
-    protected void init() {
+    public void init()
+    {
+        handle = this.client.getWindow().getHandle();
+        width = this.client.getWindow().getWidth();
+        height = this.client.getWindow().getHeight();
+        if(!isInit)
+        {
+            MinecraftWidget widget = new MinecraftWidget(150,160, 100, 100);
+            TextArea textArea = new TextArea(200,160,400,400);
+            ImageView imageView = new ImageView(ImageLoader.loadImage("assets/merlin/textures/cross.png"));
+            imageView.getStyle().setPosition(Style.PositionType.RELATIVE);
+            imageView.getStyle().setDisplay(Style.DisplayType.FLEX);
+            imageView.getStyle().setBorder(null);
+            imageView.setSize(200f,200f);
+            textArea.getTextAreaField().getStyle().setFont("jetbrain");
+            textArea.getTextState().setText("balls");
+            //widget.add(textArea);
+            //frame.getContainer().add(textArea);
+            frame.getContainer().add(imageView);
+            //frame.getContainer().add(new Widget(100,100, this.client.getWindow().getScaledWidth() - 100, this.client.getWindow().getScaledHeight() - 100));
+        }
+        isInit = true;
+        MerlinWindow.windowResize(frame);
         super.init();
-        MerlinWindow.windowResize();
-            /*
-            GLFWCursorPosCallbackI cursorPosCallbackI = (((window, cursorX, cursorY) -> this.client.execute(() -> {
-                this.onCursorMoved(window, cursorX, cursorY);
-            })));
-            GLFWMouseButtonCallbackI mouseButtonCallbackI = (((window, button, action, mods) -> this.client.execute(() -> {
-                this.onMouseClicked(window, button, action, mods);
-            })));
-            GLFWScrollCallbackI scrollCallbackI = (((window, xoffset, yoffset) -> this.client.execute(() -> {
-                this.onMouseScroll(window, xoffset, yoffset);
-            })));
-            GLFWDropCallbackI dropCallbackI = (((window, count, names) -> {
-                Path[] paths = new Path[count];
-
-                for (int i = 0; i < count; ++i) {
-                    paths[i] = Paths.get(GLFWDropCallback.getName(names, i));
-                }
-
-                this.client.execute(() -> this.onFilesDropped(window, Arrays.asList(paths)));
-            }));
-
-            callbackKeeper.getChainCursorPosCallback().add(cursorPosCallbackI);
-            callbackKeeper.getChainScrollCallback().add(scrollCallbackI);
-            callbackKeeper.getChainMouseButtonCallback().add(mouseButtonCallbackI);
-            callbackKeeper.getChainDropCallback().add(dropCallbackI);
-            InputUtil.setMouseCallbacks(client.getWindow().getHandle(), callbackKeeper.getChainCursorPosCallback(), callbackKeeper.getChainMouseButtonCallback(), callbackKeeper.getChainScrollCallback(), callbackKeeper.getChainDropCallback());
-            SystemEventProcessor.addDefaultCallbacks(callbackKeeper, systemEventProcessor);
-             */
-
-
-
-
     }
 
 
+    public void initializeComponents(Component component)
+    {
+
+    }
+
+    public void saveComponentPos(Component component)
+    {
+
+    }
 
     @Override
-    public void onClose() {
+    public void mouseMoved(double mouseX, double mouseY)
+    {
+        scaledFactor = this.client.getWindow().getScaleFactor();
+        double originalX = mouseX * this.client.getWindow().getScaleFactor();
+        double originalY = mouseY * this.client.getWindow().getScaleFactor();
+        System.out.println(scaledFactor);
+        MerlinWindow.onCursorPos(handle, originalX, originalY);
+        super.mouseMoved(mouseX, mouseY);
+    }
+
+    @Override
+    public boolean mouseReleased(double mouseX, double mouseY, int button)
+    {
+        action = GLFW_RELEASE;
+        MerlinWindow.onMouseButton(handle, button, action, mods);
+        return super.mouseReleased(mouseX, mouseY, button);
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button)
+    {
+        mods = 0;
+        action = GLFW_PRESS;
+        if(button == GLFW_MOUSE_BUTTON_LEFT || button == GLFW_MOUSE_BUTTON_RIGHT)
+        {
+            if(InputUtil.isKeyPressed(handle, GLFW_KEY_LEFT_SHIFT) || InputUtil.isKeyPressed(handle, GLFW_KEY_RIGHT_SHIFT))
+            {
+                    mods |= GLFW_MOD_SHIFT;
+            }
+
+        }
+        MerlinWindow.onMouseButton(handle, button, action, mods);
+        return super.mouseClicked(mouseX, mouseY, button);
+    }
+
+    @Override
+    public void resize(MinecraftClient client, int width, int height) {
+        super.resize(client, width, height);
+    }
+
+    @Override
+    public void onClose()
+    {
         super.onClose();
-
+        isInit = false;
     }
 
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        MerlinWindow.onKeyPressed(handle, GLFW_PRESS, keyCode, modifiers, scanCode);
+        return super.keyPressed(keyCode, scanCode, modifiers);
+    }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        MerlinWindow.windowRender();
+    public boolean charTyped(char chr, int modifiers) {
+        MerlinWindow.onChar(handle, chr);
+        return super.charTyped(chr, modifiers);
+    }
+
+    @Override
+    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta)
+    {
+        MerlinWindow.windowRender(frame);
         super.render(matrices, mouseX, mouseY, delta);
     }
 
