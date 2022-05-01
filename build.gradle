@@ -2,7 +2,7 @@ plugins {
 	id("fabric-loom") version "0.11-SNAPSHOT"
 	id("maven-publish")
 	id("io.github.juuxel.loom-quiltflower") version "1.7.0"
-	id("org.quiltmc.quilt-mappings-on-loom") version "4.0.0"
+	id("org.quiltmc.quilt-mappings-on-loom") version "4.2.0"
 	id("java")
 }
 
@@ -58,6 +58,10 @@ processResources {
 	filesMatching("fabric.mod.json") {
 		expand "version": project.version
 	}
+}
+
+classes {
+	dependsOn(gradle.includedBuild("legui").task(":processResources"))
 }
 
 tasks.withType(JavaCompile).configureEach {
