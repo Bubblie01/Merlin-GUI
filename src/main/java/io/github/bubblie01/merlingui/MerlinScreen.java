@@ -50,7 +50,7 @@ public class MerlinScreen extends Screen
         height = this.client.getWindow().getHeight();
         if(!isInit)
         {
-            MinecraftWidget widget = new MinecraftWidget(150,160, 100, 100);
+            Widget widget = new Widget(150,160, 100, 100);
             TextArea textArea = new TextArea(200,160,400,400);
             ImageView imageView = new ImageView(ImageLoader.loadImage("assets/merlin/textures/cross.png"));
             imageView.getStyle().setPosition(Style.PositionType.RELATIVE);

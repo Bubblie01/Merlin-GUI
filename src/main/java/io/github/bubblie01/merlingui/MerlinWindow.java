@@ -227,7 +227,7 @@ public class MerlinWindow {
             glBindBuffer(GL_UNIFORM_BUFFER, uniformBuffer);
             glBindVertexArray(vertexArray);
             glBindBuffer(GL_ARRAY_BUFFER, arrayBuffer);
-            glBindTexture(GL_TEXTURE_BINDING_2D, texture2D);
+            glBindTexture(GL_TEXTURE_2D, texture2D);
             //glUniformBlockBinding(... , GLNVG_FRAG_BINDING); TODO: not used in vanilla, but might be elsewhere
         }
     }
