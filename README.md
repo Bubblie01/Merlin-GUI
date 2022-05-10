@@ -15,6 +15,6 @@ This is a GUI mod for minecraft that uses a LWJGL GUI library called LEGUI. Be s
 
 ## Credits and Contributers:
   - SpinyOwl (LEGUI Creator)
-  - Kb1000 (Helped with OpenGL state and a lot of this project) 
-  - Harpsi (Texturer and Artist) Socials: https://www.curseforge.com/members/harpsi_chord/
+  - Kb1000 (Co-Creator, pretty much helped me with fixing half this damn thing and the methods to approach this concept) 
+  - Harpsi (Texturer, Artist, and Friend) Socials: https://www.curseforge.com/members/harpsi_chord/
 
