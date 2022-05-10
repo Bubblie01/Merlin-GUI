@@ -30,7 +30,7 @@ jobs:
           distribution: temurin
           java-version: ${{ matrix.java }}
       - name: build
-        run: ./gradlew legui:build build
+        run: ./gradlew :legui:build build
       - name: capture build artifacts
         if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from latest java on one OS
         uses: actions/upload-artifact@v3

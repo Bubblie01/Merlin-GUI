@@ -28,7 +28,7 @@ public class TestItem extends Item
             MinecraftClient.getInstance().setScreen(new MerlinScreen(Text.of("Balls")));
             ResourceManager resourceManager = MinecraftClient.getInstance().getResourceManager();
             try {
-                System.out.println(resourceManager.getResource(new Identifier("resources/assets/merlin/cross.png")).getId().getNamespace());
+                System.out.println(resourceManager.getResource(new Identifier("merlin:textures/cross.png")).getId().getNamespace());
             } catch (IOException e) {
                 e.printStackTrace();
             }
