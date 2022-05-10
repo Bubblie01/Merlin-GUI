@@ -19,6 +19,8 @@ pluginManagement {
     }
 }
 
+rootProject.name = "Merlin-GUI"
+
 includeBuild("legui") {
     name = "legui"
     dependencySubstitution {

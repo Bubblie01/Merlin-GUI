@@ -1,3 +1,4 @@
 [submodule "legui"]
 	path = legui
 	url = https://github.com/Bubblie01/legui.git
+	branch = develop

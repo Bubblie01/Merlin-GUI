@@ -2,22 +2,13 @@ package io.github.bubblie01.merlingui;
 
 import com.mojang.blaze3d.platform.InputUtil;
 import com.spinyowl.legui.component.*;
-import com.spinyowl.legui.component.optional.TextState;
 import com.spinyowl.legui.image.LoadableImage;
 import com.spinyowl.legui.image.loader.ImageLoader;
 import com.spinyowl.legui.style.Style;
-import com.spinyowl.legui.style.color.ColorConstants;
-import com.spinyowl.legui.style.font.FontRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.MathHelper;
-import org.joml.Vector4f;
-
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -52,7 +43,7 @@ public class MerlinScreen extends Screen
         {
             Widget widget = new Widget(150,160, 100, 100);
             TextArea textArea = new TextArea(200,160,400,400);
-            LoadableImage image = ImageLoader.loadImage("assets/merlin/textures/cross.png");
+            LoadableImage image = ImageLoader.loadImage("assets/merlin-gui/textures/cross.png");
             image.setFilteringNearest(true);
             ImageView imageView = new ImageView(image);
             imageView.getStyle().setPosition(Style.PositionType.RELATIVE);

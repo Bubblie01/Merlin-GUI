@@ -1,45 +1,25 @@
 package io.github.bubblie01.merlingui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.spinyowl.legui.DefaultInitializer;
 import com.spinyowl.legui.animation.AnimatorProvider;
 import com.spinyowl.legui.component.Frame;
-import com.spinyowl.legui.component.Widget;
-import com.spinyowl.legui.component.misc.listener.widget.WidgetDragListener;
-import com.spinyowl.legui.event.MouseDragEvent;
-import com.spinyowl.legui.listener.MouseDragEventListener;
 import com.spinyowl.legui.listener.processor.EventProcessorProvider;
-import com.spinyowl.legui.style.Background;
-import com.spinyowl.legui.style.Style;
 import com.spinyowl.legui.style.font.FontRegistry;
 import com.spinyowl.legui.system.context.CallbackKeeper;
 import com.spinyowl.legui.system.context.Context;
 import com.spinyowl.legui.system.context.DefaultCallbackKeeper;
 import com.spinyowl.legui.system.event.*;
-import com.spinyowl.legui.system.handler.CursorPosEventHandler;
 import com.spinyowl.legui.system.handler.processor.SystemEventProcessor;
 import com.spinyowl.legui.system.handler.processor.SystemEventProcessorImpl;
 import com.spinyowl.legui.system.layout.LayoutManager;
 import com.spinyowl.legui.system.renderer.nvg.NvgRenderer;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.util.Window;
 import net.minecraft.util.Identifier;
-import org.apache.commons.compress.harmony.pack200.NewAttributeBands;
 import org.joml.Vector2f;
 import org.joml.Vector2i;
-import org.lwjgl.glfw.GLFW;
-import org.lwjgl.glfw.GLFWCursorPosCallbackI;
-import org.lwjgl.glfw.GLFWImage;
-import org.lwjgl.system.Callback;
-import org.lwjgl.system.CallbackI;
 import org.lwjgl.system.MemoryStack;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.nio.ByteBuffer;
 
 import static org.lwjgl.opengl.GL11C.*;
@@ -78,9 +58,7 @@ public class MerlinWindow {
 
         context = new Context(minecraftContext);
 
-        FontRegistry.registerFontSafe("vga","assets/merlin/iv8x16u.otb");
-        FontRegistry.registerFontSafe("vegan","assets/merlin/Vegan.ttf");
-        FontRegistry.registerFontSafe("jetbrain","assets/merlin/JetBrainsMono.otf");
+        FontRegistry.registerFontSafe("jetbrain","assets/merlin-gui/JetBrainsMono.otf");
         systemEventProcessor = new SystemEventProcessorImpl();
     }
 

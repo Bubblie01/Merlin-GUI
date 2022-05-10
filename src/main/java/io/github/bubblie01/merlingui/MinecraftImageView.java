@@ -1,7 +1,6 @@
 package io.github.bubblie01.merlingui;
 
 import com.spinyowl.legui.component.Component;
-import com.spinyowl.legui.component.ImageView;
 import com.spinyowl.legui.image.Image;
 import com.spinyowl.legui.theme.Themes;
 import org.apache.commons.lang3.builder.EqualsBuilder;

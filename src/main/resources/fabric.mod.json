@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "merlin",
+  "id": "merlin-gui",
   "version": "1.0.0",
 
   "name": "Merlin-GUI",
@@ -14,7 +14,7 @@
   },
 
   "license": "MPL-2.0",
-  "icon": "assets/merlin/icon.png",
+  "icon": "assets/merlin-gui/icon.png",
 
   "environment": "*",
   "entrypoints": {
@@ -25,7 +25,7 @@
 
   },
   "mixins": [
-    "merlin.mixins.json"
+    "merlin-gui.mixins.json"
   ],
 
 
