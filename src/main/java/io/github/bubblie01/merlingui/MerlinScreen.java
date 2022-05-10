@@ -30,7 +30,6 @@ public class MerlinScreen extends Screen
     private int action;
     public float width;
     public float height;
-    public double scaledFactor;
     private final Frame frame = new Frame();
     long handle;
     boolean isInit;
@@ -83,11 +82,7 @@ public class MerlinScreen extends Screen
     @Override
     public void mouseMoved(double mouseX, double mouseY)
     {
-        scaledFactor = this.client.getWindow().getScaleFactor();
-        double originalX = mouseX * this.client.getWindow().getScaleFactor();
-        double originalY = mouseY * this.client.getWindow().getScaleFactor();
-        System.out.println(scaledFactor);
-        MerlinWindow.onCursorPos(handle, originalX, originalY);
+        MerlinWindow.onCursorPos(handle, mouseX, mouseY);
         super.mouseMoved(mouseX, mouseY);
     }
 

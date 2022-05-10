@@ -86,13 +86,10 @@ public class MerlinWindow {
 
     public static void windowRender(Frame frame) {
         try (final StateRestore ignored = new StateRestore()) {
-            //Vector2i windowSize = context.getWindowSize();
-            Vector2i windowSize = context.getWindowSize();
-            //frame.setSize(windowSize.x, windowSize.y);
-            //frame.setSize((float)(windowSize.x/minecraftWindow.getScaleFactor()), (float)(windowSize.y/minecraftWindow.getScaleFactor()));
             context.updateGlfwWindow();
+            context.setWindowSize(new Vector2i(minecraftWindow.getScaledWidth(), minecraftWindow.getScaledHeight()));
+            context.setPixelRatio((float) minecraftWindow.getScaleFactor());
             renderer.render(frame, context);
-            glViewport(0, 0, windowSize.x, windowSize.y);
             systemEventProcessor.processEvents(frame, context);
             EventProcessorProvider.getInstance().processEvents();
             LayoutManager.getInstance().layout(frame, context);
@@ -110,7 +107,6 @@ public class MerlinWindow {
     public static void onCursorPos(long handle, double cursorX, double cursorY)
     {
         systemEventProcessor.pushEvent(new SystemCursorPosEvent(handle, cursorX, cursorY));
-        System.out.println(cursorX);
     }
 
     public static void onMouseScroll(long handle, double xOffset, double yOffset)
@@ -141,7 +137,7 @@ public class MerlinWindow {
     public static void windowResize(Frame frame)
     {
         context.updateGlfwWindow();
-        frame.setSize(new Vector2f(context.getWindowSize()));
+        frame.setSize(new Vector2f(context.getFramebufferSize()).div((float) minecraftWindow.getScaleFactor()));
     }
 
 
