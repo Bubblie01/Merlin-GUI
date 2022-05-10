@@ -1,6 +1,6 @@
 # Merlin-GUI
 
-A GUI mod for Minecraft. 
+A GUI mod for Minecraft. Overhauls the entire system by implementing an existing LWJGL (OpenGL bindings for Java) GUI library. 
 
 ## Setup:
 
