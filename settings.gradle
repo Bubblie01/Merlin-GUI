@@ -18,3 +18,10 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
+includeBuild("legui") {
+    name = "legui"
+    dependencySubstitution {
+        substitute(module("io.github.bubblie:legui")).using(project(":"))
+    }
+}
