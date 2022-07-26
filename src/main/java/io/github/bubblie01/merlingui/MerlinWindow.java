@@ -1,5 +1,6 @@
 package io.github.bubblie01.merlingui;
 
+import com.mojang.blaze3d.glfw.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.spinyowl.legui.animation.AnimatorProvider;
 import com.spinyowl.legui.component.Frame;
@@ -13,8 +14,6 @@ import com.spinyowl.legui.system.handler.processor.SystemEventProcessor;
 import com.spinyowl.legui.system.handler.processor.SystemEventProcessorImpl;
 import com.spinyowl.legui.system.layout.LayoutManager;
 import com.spinyowl.legui.system.renderer.nvg.NvgRenderer;
-import net.minecraft.client.gl.Framebuffer;
-import net.minecraft.client.util.Window;
 import net.minecraft.util.Identifier;
 import org.joml.Vector2f;
 import org.joml.Vector2i;
@@ -22,11 +21,9 @@ import org.lwjgl.system.MemoryStack;
 
 import java.nio.ByteBuffer;
 
-import static org.lwjgl.opengl.GL11C.*;
 import static org.lwjgl.opengl.GL32C.*;
 
 public class MerlinWindow {
-
     String name;
     private int frameBufferID;
     private int textureID;
@@ -34,7 +31,6 @@ public class MerlinWindow {
     private static Frame frame;
     private static NvgRenderer renderer;
     private static Context context;
-    private static Framebuffer framebuffer;
     private int renderBufferID;
     private int fboWidth, fboHeight;
     static long minecraftContext;

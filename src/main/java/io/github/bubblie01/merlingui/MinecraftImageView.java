@@ -3,10 +3,8 @@ package io.github.bubblie01.merlingui;
 import com.spinyowl.legui.component.Component;
 import com.spinyowl.legui.image.Image;
 import com.spinyowl.legui.theme.Themes;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+
+import java.util.Objects;
 
 public class MinecraftImageView extends Component {
 
@@ -64,32 +62,25 @@ public class MinecraftImageView extends Component {
         if (this == o) {
             return true;
         }
-
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
-        MinecraftImageView imageView = (MinecraftImageView) o;
-
-        return new EqualsBuilder()
-                .appendSuper(super.equals(o))
-                .append(image, imageView.image)
-                .isEquals();
+        if (!super.equals(o)) {
+            return false;
+        }
+        MinecraftImageView that = (MinecraftImageView) o;
+        return Objects.equals(image, that.image);
     }
-
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(17, 37)
-                .appendSuper(super.hashCode())
-                .append(image)
-                .toHashCode();
+        return Objects.hash(super.hashCode(), image);
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-                .append("image", image)
-                .toString();
+        return "MinecraftImageView[" +
+            "image=" + image +
+            ']';
     }
 }

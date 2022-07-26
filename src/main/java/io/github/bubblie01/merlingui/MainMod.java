@@ -1,10 +1,11 @@
 package io.github.bubblie01.merlingui;
 
-import net.fabricmc.api.ModInitializer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import org.quiltmc.loader.api.ModContainer;
+import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 
 public class MainMod implements ModInitializer
 {
@@ -14,7 +15,7 @@ public class MainMod implements ModInitializer
 	public static final String MOD_ID = "merlin-gui";
 	public static final TestItem TEST_ITEM = new TestItem(new Item.Settings().group(ItemGroup.MATERIALS));
 	@Override
-	public void onInitialize()
+	public void onInitialize(ModContainer modContainer)
 	{
 		//System.loadLibrary("renderdoc");
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "test_item"),TEST_ITEM);

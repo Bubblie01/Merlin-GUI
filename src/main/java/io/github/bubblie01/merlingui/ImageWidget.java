@@ -5,7 +5,6 @@ import com.spinyowl.legui.image.Image;
 
 
 public class ImageWidget extends ImageView {
-
     private Image image;
     private int x;
     private int y;
@@ -27,6 +26,4 @@ public class ImageWidget extends ImageView {
         this.getStyle().setMinWidth(width);
         this.setPosition(x,y);
     }
-
-
 }

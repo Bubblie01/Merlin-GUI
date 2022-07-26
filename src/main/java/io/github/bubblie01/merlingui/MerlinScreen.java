@@ -111,9 +111,9 @@ public class MerlinScreen extends Screen
     }
 
     @Override
-    public void onClose()
+    public void closeScreen()
     {
-        super.onClose();
+        super.closeScreen();
         isInit = false;
     }
 
