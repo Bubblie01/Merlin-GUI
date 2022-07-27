@@ -36,7 +36,7 @@ dependencies {
 	configurations.all {
 		resolutionStrategy.eachDependency { DependencyResolveDetails details ->
 			if (details.requested.group == 'org.lwjgl') {
-				details.useVersion('3.2.2')
+				details.useVersion('3.3.1')
 				details.because("compatibility")
 			}
 		}
