@@ -1,0 +1,43 @@
+{
+	"schema_version": 1,
+	"quilt_loader": {
+		"group": "io.github.bubblie01",
+		"id": "merlin-gui",
+		"version": "${version}",
+		"metadata": {
+			"name": "Merlin-GUI",
+			"description": "Advanced GUI mod for Minecraft",
+			"contributors": {
+				"Bubblie01": "Owner",
+				"kb1000": "Contributor",
+				"SpinyOwl": "Original LEGUI creator"
+			},
+			"contact": {
+				"homepage": "https://github.com/Bubblie01/Merlin-GUI",
+				"issues": "https://github.com/Bubblie01/Merlin-GUI/issues",
+				"sources": "https://github.com/Bubblie01/Merlin-GUI"
+			},
+			"license": "MPL-2.0",
+			"icon": "assets/merlin-gui/icon.png"
+		},
+		"intermediate_mappings": "net.fabricmc:intermediary",
+		"entrypoints": {
+			"init": "io.github.bubblie01.merlingui.MainMod"
+		},
+		"depends": [
+			{
+				"id": "quilt_loader",
+				"versions": ">=0.18.10"
+			},
+			{
+				"id": "quilted_fabric_api",
+				"versions": ">=6.0.0-"
+			},
+			{
+				"id": "minecraft",
+				"versions": "1.19.4"
+			}
+		]
+	},
+	"mixin": "merlin-gui.mixins.json"
+}
